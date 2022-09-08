@@ -45,28 +45,45 @@ const d_text = document.getElementById('d_text');
 const submitBtn = document.getElementById('submit')
 
 let currentQuiz = 0;
+let score = 0;
 
 loadQuiz();
 
 function loadQuiz() {
   const currentQuizData = quizData[currentQuiz];
-  console.log(currentQuizData);
   questionEl.innerText = currentQuizData.question;
   a_text.innerText = currentQuizData.a;
   b_text.innerText = currentQuizData.b;
   c_text.innerText = currentQuizData.c;
   d_text.innerText = currentQuizData.d;
+}
 
+function getSelected() {
+  const answersEls = document.querySelectorAll('.answer');
+  let answer = undefined;
+  
+  answersEls.forEach((answersEl) => {
+    if (answersEl.checked) {
+      answer = answersEl.id;
+    }
+  })
 
+  return answer;
 }
 
 submitBtn.addEventListener('click', () => {
-  currentQuiz++;
+  const answer = getSelected();
+  console.log('====================================');
+  console.log(answer);
+  console.log('====================================');
+  
+  if (answer) {
+    currentQuiz++;
 
-  if (currentQuiz < quizData.length) {
+    if (currentQuiz < quizData.length) {
     loadQuiz();
   } else {
     alert('Ты ответил на все вопросы !')
+    }
   }
-  
 })
