@@ -31,6 +31,8 @@ button:hover {
 }
 
 h2 {
+  padding: 10px;
+  text-align: center;
   margin: 0;
 }
 

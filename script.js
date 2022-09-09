@@ -37,12 +37,14 @@ const quizData = [
   }
 ]
 
+const quizContainerEl = document.querySelector('.quiz-container')
 const questionEl = document.getElementById('question');
+const submitBtn = document.getElementById('submit')
+const answersEls = document.querySelectorAll('.answer');
 const a_text = document.getElementById('a_text');
 const b_text = document.getElementById('b_text');
 const c_text = document.getElementById('c_text');
 const d_text = document.getElementById('d_text');
-const submitBtn = document.getElementById('submit')
 
 let currentQuiz = 0;
 let score = 0;
@@ -50,6 +52,7 @@ let score = 0;
 loadQuiz();
 
 function loadQuiz() {
+  deselectAnswer();
   const currentQuizData = quizData[currentQuiz];
   questionEl.innerText = currentQuizData.question;
   a_text.innerText = currentQuizData.a;
@@ -59,31 +62,39 @@ function loadQuiz() {
 }
 
 function getSelected() {
-  const answersEls = document.querySelectorAll('.answer');
   let answer = undefined;
   
   answersEls.forEach((answersEl) => {
     if (answersEl.checked) {
       answer = answersEl.id;
-    }
+    } 
   })
 
   return answer;
 }
 
+function deselectAnswer() {
+  answersEls.forEach((answersEl) => {
+    answersEl.checked = false;
+  })
+}
+
 submitBtn.addEventListener('click', () => {
   const answer = getSelected();
-  console.log('====================================');
   console.log(answer);
-  console.log('====================================');
   
   if (answer) {
+
+  if (answer === quizData[currentQuiz].correct) {
+    score++;
+  }
     currentQuiz++;
 
     if (currentQuiz < quizData.length) {
     loadQuiz();
   } else {
-    alert('Ты ответил на все вопросы !')
+      quizContainerEl.innerHTML = `<h2>Ты ответил правильно на ${score} из ${quizData.length} вопросов</h2>
+    <button onClick="location.reload"></button>`
     }
   }
 })
